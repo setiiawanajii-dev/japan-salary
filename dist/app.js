@@ -246,11 +246,11 @@ function render() {
     return;
   }
   $("#app").innerHTML =
-    `<div class="layout"><aside class="sidebar"><div class="brand"><img src="./icon.svg" alt=""><div><b>Japan Salary<br>Calculator</b><small>日本給与計算</small></div></div><div class="eyebrow">${t("Ruang kerja", "ワークスペース")}</div><nav aria-label="${t("Navigasi utama", "メインナビゲーション")}">${nav()}</nav><div class="side-bottom"><span class="secure-dot"></span>${t("Tersimpan di perangkat", "この端末に保存")}<br><small>${t("Bekerja tenang. Hitung jelas.", "毎日の勤務を、もっと明確に。")}</small></div></aside><main class="main"><header class="topbar"><span class="crumb">${t("Ruang kerja saya", "マイワークスペース")} <span style="margin:0 8px">/</span> ${t("Ringkasan gaji", "給与の概要")}</span><span class="mobile-brand"><img src="./icon.svg" alt="">Japan Salary</span><div class="tools"><button data-action="language" class="language">${data.settings.language === "id" ? "🇮🇩 ID" : "🇯🇵 日本語"}</button><div class="avatar">${esc((data.settings.name || "JS").slice(0, 2).toUpperCase())}</div></div></header><div class="page-content">${page === "home" ? dashboard() : page === "work" ? workPage() : page === "calendar" ? calendarPage() : page === "salary" ? salaryPage() : settingsPage()}</div><p class="disclaimer">${icon("shield")}<span>${disclaimer()}</span></p></main><nav class="bottom-nav" aria-label="${t("Navigasi mobile", "モバイルナビゲーション")}">${nav()}</nav></div>`;
+    `<div class="layout"><aside class="sidebar"><div class="brand"><img src="./icon.svg" alt=""><div><b>Japan Salary<br>Calculator</b><small>日本給与計算</small></div></div><div class="eyebrow">${t("Ruang kerja", "ワークスペース")}</div><nav aria-label="${t("Navigasi utama", "メインナビゲーション")}">${nav()}</nav><div class="side-bottom"><span class="secure-dot"></span>${t("Tersimpan di perangkat", "この端末に保存")}<br><small>${t("Bekerja tenang. Hitung jelas.", "毎日の勤務を、もっと明確に。")}</small></div></aside><main class="main"><header class="topbar"><span class="crumb">${t("Ruang kerja saya", "マイワークスペース")} <span style="margin:0 8px">/</span> ${({home:t("Beranda","ホーム"),work:t("Jam kerja","勤務"),calendar:t("Kalender","カレンダー"),salary:t("Gaji","給料"),settings:t("Pengaturan","設定")})[page]}</span><span class="mobile-brand"><img src="./icon.svg" alt="">Japan Salary</span><div class="tools"><button data-action="language" class="language">${data.settings.language === "id" ? "🇮🇩 ID" : "🇯🇵 日本語"}</button><div class="avatar">${esc((data.settings.name || "JS").slice(0, 2).toUpperCase())}</div></div></header><div class="page-content">${page === "home" ? dashboard() : page === "work" ? workPage() : page === "calendar" ? calendarPage() : page === "salary" ? salaryPage() : settingsPage()}</div><p class="disclaimer">${icon("shield")}<span>${disclaimer()}</span></p></main><nav class="bottom-nav" aria-label="${t("Navigasi mobile", "モバイルナビゲーション")}">${nav()}</nav></div>`;
   bindForms();
 }
 function heading(title, subtitle, action = true) {
-  return `<div class="heading"><div><h1>${title}</h1><p>${subtitle}</p></div>${action ? `<button class="primary" data-action="add">${icon("plus")}<span>${t("Tambah", "追加")}<span class="add-label"> ${t("jam kerja", "勤務")}</span></span></button>` : ""}</div>`;
+  return `<div class="heading"><div><h1 tabindex="-1">${title}</h1><p>${subtitle}</p></div>${action ? `<button class="primary" data-action="add">${icon("plus")}<span>${t("Tambah jam kerja", "勤務を追加")}</span></button>` : ""}</div>`;
 }
 function workRows(rows, limit = Infinity) {
   return rows.length
@@ -335,7 +335,7 @@ function calendarPage() {
     }
     cells += `<button class="cal-day ${date === today ? "today" : ""} ${e ? "has-entry" : ""}" ${e ? `data-entry="${esc(e.id)}"` : `data-action="add" data-date="${date}"`} aria-label="${date}${e ? " " + dayLabel(e.dayType) : ""}">${day}${e ? `<span class="dot ${color}"></span><small>${isLeave(e.dayType) ? dayLabel(e.dayType) : esc(e.clockIn)}</small>` : ""}</button>`;
   }
-  return `${heading(t("Kalender kerja", "勤務カレンダー"), t("Satu bulan, semua aktivitas Anda.", "ひと月の勤務をまとめて確認。"))}<div class="section-head">${periodControl(true)}<button data-action="calendar-today" class="text-btn">${t("Bulan ini", "今月")}</button></div><section class="card"><div class="calendar">${t(
+  return `${heading(t("Kalender kerja", "勤務カレンダー"), t("Satu bulan, semua aktivitas Anda.", "ひと月の勤務をまとめて確認。"))}<div class="section-head">${periodControl(true)}<button data-action="calendar-today" class="text-btn">${t("Bulan ini", "今月")}</button></div><section class="card calendar-card"><div class="calendar">${t(
     "Min,Sen,Sel,Rab,Kam,Jum,Sab",
     "日,月,火,水,木,金,土",
   )
@@ -353,7 +353,7 @@ function calendarPage() {
 }
 function salaryPage() {
   const r = report();
-  return `${heading(t("Gaji Anda", "給与"), t("Rincian yang transparan untuk setiap periode.", "期間ごとの給与をわかりやすく。"), false)}<div class="section-head">${periodControl()}<button data-action="csv" class="text-btn">${icon("download")} CSV</button></div><div class="tabs no-print">${[
+  return `${heading(t("Gaji Anda", "給与"), t("Rincian yang transparan untuk setiap periode.", "期間ごとの給与をわかりやすく。"), false)}<div class="section-head">${periodControl()}<button data-action="csv" class="text-btn">${icon("download")} CSV</button></div><div class="tabs salary-tabs no-print" role="group" aria-label="${t("Bagian gaji","給与メニュー")}">${[
     ["slip", t("Slip estimasi", "給与明細")],
     ["allowances", t("Tunjangan", "手当")],
     ["deductions", t("Potongan", "控除")],
@@ -362,7 +362,7 @@ function salaryPage() {
   ]
     .map(
       ([v, l]) =>
-        `<button data-salary-tab="${v}" class="${salaryTab === v ? "active" : ""}">${l}</button>`,
+        `<button data-salary-tab="${v}" aria-pressed="${salaryTab === v}" class="${salaryTab === v ? "active" : ""}">${l}</button>`,
     )
     .join(
       "",
@@ -495,7 +495,7 @@ function ruleFields(s) {
 }
 function settingsPage() {
   const s = data.settings;
-  return `${heading(t("Pengaturan", "設定"), t("Sesuaikan perhitungan dengan tempat kerja Anda.", "勤務先の条件に合わせて設定。"), false)}<div class="tabs">${[
+  return `${heading(t("Pengaturan", "設定"), t("Sesuaikan perhitungan dengan tempat kerja Anda.", "勤務先の条件に合わせて設定。"), false)}<div class="tabs settings-tabs" role="group" aria-label="${t("Bagian pengaturan","設定メニュー")}">${[
     ["company", t("Tempat kerja", "勤務先")],
     ["period", t("Periode", "給与期間")],
     ["rules", t("Aturan & premium", "割増設定")],
@@ -503,7 +503,7 @@ function settingsPage() {
   ]
     .map(
       ([v, l]) =>
-        `<button data-settings-tab="${v}" class="${settingsTab === v ? "active" : ""}">${l}</button>`,
+        `<button data-settings-tab="${v}" aria-pressed="${settingsTab === v}" class="${settingsTab === v ? "active" : ""}">${l}</button>`,
     )
     .join("")}</div><section class="card"><form id="settings-form">${
     settingsTab === "company"
@@ -536,10 +536,11 @@ function showDialog(html) {
   const d = $("#sheet");
   cancelDialogClose(d);
   d.innerHTML = `<div class="sheet-content">${html}</div>`;
+  d.setAttribute("aria-labelledby", "sheet-title");
   if (!d.open) d.showModal();
 }
 function dialogHead(title) {
-  return `<div class="dialog-head"><h2>${title}</h2><button class="icon-btn" data-action="close" aria-label="${t("Tutup", "閉じる")}">${icon("close")}</button></div>`;
+  return `<div class="dialog-head"><h2 id="sheet-title">${title}</h2><button class="icon-btn" data-action="close" aria-label="${t("Tutup", "閉じる")}">${icon("close")}</button></div>`;
 }
 function detail(id) {
   const source = data.entries.find((e) => e.id === id);
@@ -587,7 +588,7 @@ function editEntry(id, date = today) {
       t("Jenis hari", "勤務区分"),
       DAY_TYPES.map((k) => [k, dayLabel(k)]),
       e.dayType,
-    )}</div><div id="work-inputs"><div class="form-grid" style="margin-top:16px">${field("clockIn", t("Jam masuk", "出勤"), e.clockIn, "time", "required")}${field("clockOut", t("Jam pulang", "退勤"), e.clockOut, "time", "required")}</div><label class="check"><input type="checkbox" name="clockOutNextDay" ${e.clockOutNextDay ? "checked" : ""}>${t("Pulang hari berikutnya (otomatis jika jam lebih kecil)", "翌日に退勤（時刻が早い場合は自動判定）")}</label><div class="form-grid">${select(
+    )}</div><div id="work-inputs"><div class="form-grid time-fields" style="margin-top:16px">${field("clockIn", t("Jam masuk", "出勤"), e.clockIn, "time", "required")}${field("clockOut", t("Jam pulang", "退勤"), e.clockOut, "time", "required")}</div><label class="check"><input type="checkbox" name="clockOutNextDay" ${e.clockOutNextDay ? "checked" : ""}>${t("Pulang hari berikutnya (otomatis jika jam lebih kecil)", "翌日に退勤（時刻が早い場合は自動判定）")}</label><div class="form-grid">${select(
       "nextDayType",
       t("Jenis hari setelah tengah malam", "翌日0時以降の区分"),
       [
@@ -1017,6 +1018,7 @@ document.addEventListener("click", async (ev) => {
     page = d.page;
     render();
     window.scrollTo(0, 0);
+    $(".heading h1")?.focus({preventScroll:true});
     return;
   }
   if (d.entry) {
@@ -1027,12 +1029,14 @@ document.addEventListener("click", async (ev) => {
     if (salaryTab === d.salaryTab) return;
     salaryTab = d.salaryTab;
     render();
+    document.querySelector(`[data-salary-tab="${salaryTab}"]`)?.focus({preventScroll:true});
     return;
   }
   if (d.settingsTab) {
     if (settingsTab === d.settingsTab) return;
     settingsTab = d.settingsTab;
     render();
+    document.querySelector(`[data-settings-tab="${settingsTab}"]`)?.focus({preventScroll:true});
     return;
   }
   if (d.wizardLanguage) {
