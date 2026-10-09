@@ -190,6 +190,55 @@ function applyTheme() {
   if (data.settings.theme !== "system")
     document.documentElement.dataset.theme = data.settings.theme;
 }
+const closingDialogs = new WeakMap();
+const regionMotions = new WeakMap();
+const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function cancelDialogClose(dialog) {
+  const running = closingDialogs.get(dialog);
+  if (running) { closingDialogs.delete(dialog); running.cancel(); }
+}
+async function closeDialog(dialog) {
+  if (!dialog.open || closingDialogs.has(dialog)) return;
+  if (reduceMotion() || !dialog.animate) { dialog.close(); return; }
+  const animation = dialog.animate(
+    [{opacity:1,transform:'translateY(0)'},{opacity:0,transform:'translateY(14px)'}],
+    {duration:150,easing:'cubic-bezier(.4,0,1,1)',fill:'forwards'}
+  );
+  closingDialogs.set(dialog,animation);
+  try { await animation.finished; } catch { return; }
+  if (closingDialogs.get(dialog) !== animation) return;
+  closingDialogs.delete(dialog);
+  dialog.close();
+  animation.cancel();
+}
+function toggleRegion(element, hidden, animate) {
+  const running = regionMotions.get(element);
+  if (running?.hidden === hidden) return;
+  if (!running && element.hidden === hidden) return;
+  const height = element.hidden ? 0 : element.getBoundingClientRect().height;
+  if (running) { regionMotions.delete(element); running.animation.cancel(); }
+  element.inert = hidden;
+  element.setAttribute('aria-hidden', String(hidden));
+  if (!animate || reduceMotion() || !element.animate) { element.hidden = hidden; return; }
+  element.hidden = false;
+  const target = hidden ? 0 : element.getBoundingClientRect().height;
+  const animation = element.animate(
+    [{height:height+'px',opacity:hidden?1:0,overflow:'hidden'},
+     {height:target+'px',opacity:hidden?0:1,overflow:'hidden'}],
+    {duration:200,easing:'cubic-bezier(.2,.8,.2,1)',fill:'both'}
+  );
+  regionMotions.set(element,{animation,hidden});
+  animation.finished.then(() => {
+    if (regionMotions.get(element)?.animation !== animation) return;
+    element.hidden = hidden;
+    regionMotions.delete(element);
+    animation.cancel();
+  }).catch(() => {});
+}
+$('#sheet').addEventListener('cancel', event => {
+  event.preventDefault();
+  closeDialog($('#sheet'));
+});
 function render() {
   applyTheme();
   if (!data.onboarded) {
@@ -197,7 +246,7 @@ function render() {
     return;
   }
   $("#app").innerHTML =
-    `<div class="layout"><aside class="sidebar"><div class="brand"><img src="./icon.svg" alt=""><div><b>Japan Salary<br>Calculator</b><small>日本給与計算</small></div></div><div class="eyebrow">${t("Ruang kerja", "ワークスペース")}</div><nav aria-label="${t("Navigasi utama", "メインナビゲーション")}">${nav()}</nav><div class="side-bottom"><span class="secure-dot"></span>${t("Tersimpan di perangkat", "この端末に保存")}<br><small>${t("Bekerja tenang. Hitung jelas.", "毎日の勤務を、もっと明確に。")}</small></div></aside><main class="main"><header class="topbar"><span class="crumb">${t("Ruang kerja saya", "マイワークスペース")} <span style="margin:0 8px">/</span> ${t("Ringkasan gaji", "給与の概要")}</span><span class="mobile-brand"><img src="./icon.svg" alt="">Japan Salary</span><div class="tools"><button data-action="language" class="language">${data.settings.language === "id" ? "🇮🇩 ID" : "🇯🇵 日本語"}</button><div class="avatar">${esc((data.settings.name || "JS").slice(0, 2).toUpperCase())}</div></div></header>${page === "home" ? dashboard() : page === "work" ? workPage() : page === "calendar" ? calendarPage() : page === "salary" ? salaryPage() : settingsPage()}<p class="disclaimer">${icon("shield")}<span>${disclaimer()}</span></p></main><nav class="bottom-nav" aria-label="${t("Navigasi mobile", "モバイルナビゲーション")}">${nav()}</nav></div>`;
+    `<div class="layout"><aside class="sidebar"><div class="brand"><img src="./icon.svg" alt=""><div><b>Japan Salary<br>Calculator</b><small>日本給与計算</small></div></div><div class="eyebrow">${t("Ruang kerja", "ワークスペース")}</div><nav aria-label="${t("Navigasi utama", "メインナビゲーション")}">${nav()}</nav><div class="side-bottom"><span class="secure-dot"></span>${t("Tersimpan di perangkat", "この端末に保存")}<br><small>${t("Bekerja tenang. Hitung jelas.", "毎日の勤務を、もっと明確に。")}</small></div></aside><main class="main"><header class="topbar"><span class="crumb">${t("Ruang kerja saya", "マイワークスペース")} <span style="margin:0 8px">/</span> ${t("Ringkasan gaji", "給与の概要")}</span><span class="mobile-brand"><img src="./icon.svg" alt="">Japan Salary</span><div class="tools"><button data-action="language" class="language">${data.settings.language === "id" ? "🇮🇩 ID" : "🇯🇵 日本語"}</button><div class="avatar">${esc((data.settings.name || "JS").slice(0, 2).toUpperCase())}</div></div></header><div class="page-content">${page === "home" ? dashboard() : page === "work" ? workPage() : page === "calendar" ? calendarPage() : page === "salary" ? salaryPage() : settingsPage()}</div><p class="disclaimer">${icon("shield")}<span>${disclaimer()}</span></p></main><nav class="bottom-nav" aria-label="${t("Navigasi mobile", "モバイルナビゲーション")}">${nav()}</nav></div>`;
   bindForms();
 }
 function heading(title, subtitle, action = true) {
@@ -485,7 +534,8 @@ function settingsPage() {
 }
 function showDialog(html) {
   const d = $("#sheet");
-  d.innerHTML = html;
+  cancelDialogClose(d);
+  d.innerHTML = `<div class="sheet-content">${html}</div>`;
   if (!d.open) d.showModal();
 }
 function dialogHead(title) {
@@ -559,7 +609,7 @@ function editEntry(id, date = today) {
   previewEntry();
   $("#entry-form").addEventListener("input", previewEntry);
   $("#entry-form").addEventListener("change", () => {
-    entryMode();
+    entryMode(true);
     previewEntry();
   });
   $("#entry-form").onsubmit = (ev) => {
@@ -572,7 +622,7 @@ function editEntry(id, date = today) {
         entries: [...data.entries.filter((x) => x.id !== e.id), e],
       };
       if (commit(next)) {
-        $("#sheet").close();
+        closeDialog($("#sheet"));
         month = periodForDate(e.date, s.closingDay);
         render();
         toast(t("Catatan tersimpan", "勤務を保存しました"));
@@ -582,15 +632,15 @@ function editEntry(id, date = today) {
     }
   };
 }
-function entryMode() {
+function entryMode(animate = false) {
   const f = $("#entry-form");
   if (!f) return;
   const leave = isLeave(f.elements.dayType.value),
     simple = f.elements.breakMode.value === "simple";
-  $("#work-inputs").hidden = leave;
-  $("#break-ranges").hidden = simple;
-  $("#simple-break").hidden = !simple;
-  $("#special-paid").hidden = f.elements.dayType.value !== "specialLeave";
+  toggleRegion($("#work-inputs"), leave, animate);
+  toggleRegion($("#break-ranges"), simple, animate && !leave);
+  toggleRegion($("#simple-break"), !simple, animate && !leave);
+  toggleRegion($("#special-paid"), f.elements.dayType.value !== "specialLeave", animate);
   for (const el of $("#work-inputs").querySelectorAll("input,select"))
     el.disabled = leave;
   for (const el of $("#break-ranges").querySelectorAll("input"))
@@ -698,7 +748,7 @@ function moneyForm(kind, id) {
         [kind]: [...data[kind].filter((x) => x.id !== a.id), item],
       })
     ) {
-      $("#sheet").close();
+      closeDialog($("#sheet"));
       render();
       toast(t("Tersimpan", "保存しました"));
     }
@@ -963,6 +1013,7 @@ document.addEventListener("click", async (ev) => {
   if (!target) return;
   const d = target.dataset;
   if (d.page) {
+    if (page === d.page) return;
     page = d.page;
     render();
     window.scrollTo(0, 0);
@@ -973,11 +1024,13 @@ document.addEventListener("click", async (ev) => {
     return;
   }
   if (d.salaryTab) {
+    if (salaryTab === d.salaryTab) return;
     salaryTab = d.salaryTab;
     render();
     return;
   }
   if (d.settingsTab) {
+    if (settingsTab === d.settingsTab) return;
     settingsTab = d.settingsTab;
     render();
     return;
@@ -994,7 +1047,7 @@ document.addEventListener("click", async (ev) => {
   }
   switch (d.action) {
     case "close":
-      $("#sheet").close();
+      closeDialog($("#sheet"));
       break;
     case "language":
       if (
@@ -1021,7 +1074,7 @@ document.addEventListener("click", async (ev) => {
         )) &&
         commit({ ...data, entries: data.entries.filter((e) => e.id !== d.id) })
       ) {
-        $("#sheet").close();
+        closeDialog($("#sheet"));
         render();
         toast(t("Catatan dihapus", "削除しました"));
       }
@@ -1167,7 +1220,7 @@ window.addEventListener("storage", (e) => {
   if (e.key === "japan-salary-calculator:v1") {
     try {
       data = loadData();
-      $("#sheet").close();
+      closeDialog($("#sheet"));
       render();
       toast(t("Data diperbarui dari tab lain", "別のタブの変更を反映しました"));
     } catch (err) {
@@ -1194,8 +1247,11 @@ function ask(message) {
     modal.setAttribute("aria-label", t("Konfirmasi", "確認"));
     modal.innerHTML = `<h2>${t("Konfirmasi", "確認")}</h2><p>${esc(message)}</p><div class="actions"><button type="button" class="cancel-confirm">${t("Batal", "キャンセル")}</button><button type="button" class="primary accept-confirm">${t("Ya, lanjutkan", "はい、続行")}</button></div>`;
     document.body.append(modal);
-    const finish = (value) => {
-      modal.close();
+    let finishing = false;
+    const finish = async (value) => {
+      if (finishing) return;
+      finishing = true;
+      await closeDialog(modal);
       modal.remove();
       resolve(value);
     };

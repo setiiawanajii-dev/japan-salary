@@ -1,4 +1,4 @@
-const CACHE = "japan-salary-v1.0.0";
+const CACHE = "japan-salary-v1.1.0";
 const ASSETS = [
   "./",
   "./index.html",

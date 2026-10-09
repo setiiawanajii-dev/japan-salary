@@ -1279,3 +1279,39 @@ dialog::backdrop {
     color: #c8e297;
   }
 }
+
+/* Short, interruptible motion; never delay typing or navigation. */
+:root { --motion-ease: cubic-bezier(.2,.8,.2,1); }
+@keyframes page-arrive {
+  from { opacity: 0; transform: translateY(9px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes sheet-arrive {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes content-arrive { from { opacity: 0; } to { opacity: 1; } }
+.page-content { animation: page-arrive 230ms var(--motion-ease); }
+.onboarding .card { animation: page-arrive 230ms var(--motion-ease); }
+dialog[open] { animation: sheet-arrive 240ms var(--motion-ease); }
+dialog[open]::backdrop { animation: content-arrive 180ms ease-out; }
+.sheet-content { animation: content-arrive 160ms ease-out; }
+.break-row { animation: page-arrive 180ms var(--motion-ease); }
+button, .work-row, .cal-day {
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 120ms var(--motion-ease);
+}
+button:active:not(:disabled) { transform: scale(.97); }
+.field input, .field select, .field textarea, .break-row input {
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+.field input:focus, .field select:focus, .field textarea:focus, .break-row input:focus {
+  border-color: #91b793;
+  box-shadow: 0 0 0 3px #91b79325;
+}
+#toast { display: block; opacity: 0; visibility: hidden; pointer-events: none; transform: translate(-50%, 8px); transition: opacity 180ms ease, transform 180ms var(--motion-ease), visibility 180ms; }
+#toast.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  button:active:not(:disabled) { transform: none; }
+}
+@media print { .page-content { animation: none; transform: none; opacity: 1; } }
