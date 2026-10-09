@@ -1,0 +1,454 @@
+{
+  "version": 1,
+  "onboarded": true,
+  "settings": {
+    "statutoryMinutesPerDay": 480,
+    "statutoryMinutesPerWeek": 2400,
+    "overtimePremium": 0.25,
+    "nightPremium": 0.25,
+    "holidayPremium": 0.35,
+    "over60HoursPremium": 0.5,
+    "nightStart": "22:00",
+    "nightEnd": "05:00",
+    "over60ThresholdMinutes": 3600,
+    "countryPreset": "JP",
+    "language": "id",
+    "currency": "JPY",
+    "theme": "system",
+    "mode": "advanced",
+    "name": "Pengguna Demo",
+    "company": "Sakura Manufacturing",
+    "employment": "contract",
+    "salaryType": "hourly",
+    "hourlyRate": 1300,
+    "monthlySalary": 250000,
+    "dailySalary": 10000,
+    "monthlyScheduledMinutes": 9600,
+    "scheduledMinutesPerDay": 450,
+    "defaultBreakMinutes": 60,
+    "workDaysPerWeek": 5,
+    "holidayWeekday": 0,
+    "weekStartsOn": 0,
+    "withinPremium": 0,
+    "closingDay": 20,
+    "salaryPaymentDay": 10,
+    "paymentMonthOffset": 1,
+    "over60ClosingDay": 20
+  },
+  "entries": [
+    {
+      "id": "22764892-8282-4b68-bbec-90780df5c8fc",
+      "date": "2026-09-21",
+      "clockIn": "20:00",
+      "clockOut": "05:00",
+      "clockOutNextDay": true,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "00:00",
+          "end": "01:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "30ae1978-196d-4087-9d60-75f4c0d34194",
+      "date": "2026-09-22",
+      "clockIn": "08:00",
+      "clockOut": "17:30",
+      "clockOutNextDay": false,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "12:00",
+          "end": "13:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "3a64f567-fd5a-41c9-839c-e230fa62db0f",
+      "date": "2026-09-23",
+      "clockIn": "08:00",
+      "clockOut": "17:30",
+      "clockOutNextDay": false,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "12:00",
+          "end": "13:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "f47d5307-3eb0-4fa7-8aad-33e162d55277",
+      "date": "2026-09-24",
+      "clockIn": "08:00",
+      "clockOut": "19:30",
+      "clockOutNextDay": false,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "12:00",
+          "end": "13:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "fa51021d-bf60-4513-a3a7-852025d0b52e",
+      "date": "2026-09-25",
+      "clockIn": "08:00",
+      "clockOut": "17:30",
+      "clockOutNextDay": false,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "12:00",
+          "end": "13:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "00a176e1-b98a-4c68-8460-3fd6d4a773cf",
+      "date": "2026-09-28",
+      "clockIn": "08:00",
+      "clockOut": "17:30",
+      "clockOutNextDay": false,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "12:00",
+          "end": "13:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "7bf43bc0-40b5-43e2-af10-34e345343be7",
+      "date": "2026-09-29",
+      "clockIn": "20:00",
+      "clockOut": "05:00",
+      "clockOutNextDay": true,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "00:00",
+          "end": "01:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "319f91bc-9cef-4d23-95fb-a4adde45f115",
+      "date": "2026-09-30",
+      "clockIn": "08:00",
+      "clockOut": "17:30",
+      "clockOutNextDay": false,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "12:00",
+          "end": "13:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "af1b3ae5-0f2e-4732-911a-02f9ee4cad09",
+      "date": "2026-10-01",
+      "clockIn": "08:00",
+      "clockOut": "17:30",
+      "clockOutNextDay": false,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "12:00",
+          "end": "13:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "dda256f2-ac7b-4551-aa0b-c92f76032584",
+      "date": "2026-10-02",
+      "clockIn": "08:00",
+      "clockOut": "19:30",
+      "clockOutNextDay": false,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "12:00",
+          "end": "13:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "987601ee-43fa-4060-bd04-ab20a6300525",
+      "date": "2026-10-05",
+      "clockIn": "08:00",
+      "clockOut": "17:30",
+      "clockOutNextDay": false,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "12:00",
+          "end": "13:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "dda95f3d-33f4-4928-b2e5-274f57222c48",
+      "date": "2026-10-06",
+      "clockIn": "08:00",
+      "clockOut": "17:30",
+      "clockOutNextDay": false,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "12:00",
+          "end": "13:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "4efabbee-a792-4379-9b2a-dc2f910acb83",
+      "date": "2026-10-07",
+      "clockIn": "20:00",
+      "clockOut": "05:00",
+      "clockOutNextDay": true,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "00:00",
+          "end": "01:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "d7e1e5c4-1f4a-47ea-b434-899ce7dce7d6",
+      "date": "2026-10-08",
+      "clockIn": "08:00",
+      "clockOut": "17:30",
+      "clockOutNextDay": false,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "12:00",
+          "end": "13:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "dbea71f8-9b66-490d-83f6-55b338600c7d",
+      "date": "2026-10-09",
+      "clockIn": "08:00",
+      "clockOut": "17:30",
+      "clockOutNextDay": false,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "12:00",
+          "end": "13:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "6645a55d-ad31-465f-be87-cfdc7bba571f",
+      "date": "2026-10-12",
+      "clockIn": "08:00",
+      "clockOut": "19:30",
+      "clockOutNextDay": false,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "12:00",
+          "end": "13:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "d62965bc-a87e-4d3b-8352-b3143e091efb",
+      "date": "2026-10-13",
+      "clockIn": "08:00",
+      "clockOut": "17:30",
+      "clockOutNextDay": false,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "12:00",
+          "end": "13:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "2e12c068-aa82-4694-b127-ae00f8e14a7d",
+      "date": "2026-10-14",
+      "clockIn": "08:00",
+      "clockOut": "17:30",
+      "clockOutNextDay": false,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "12:00",
+          "end": "13:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "47477904-9b71-4f60-b3c7-a2c807b02d48",
+      "date": "2026-10-15",
+      "clockIn": "20:00",
+      "clockOut": "05:00",
+      "clockOutNextDay": true,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "00:00",
+          "end": "01:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "d1611779-a93a-43f1-a17e-de3ebd9dd656",
+      "date": "2026-10-16",
+      "clockIn": "08:00",
+      "clockOut": "17:30",
+      "clockOutNextDay": false,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "12:00",
+          "end": "13:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "2055e6a8-46e0-4bbf-b6d2-ad005953b085",
+      "date": "2026-10-19",
+      "clockIn": "08:00",
+      "clockOut": "17:30",
+      "clockOutNextDay": false,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "12:00",
+          "end": "13:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    },
+    {
+      "id": "4d4a8b8e-bd31-4548-bbd6-275350734bb2",
+      "date": "2026-10-20",
+      "clockIn": "08:00",
+      "clockOut": "19:30",
+      "clockOutNextDay": false,
+      "breakMode": "ranges",
+      "breaks": [
+        {
+          "start": "12:00",
+          "end": "13:00"
+        }
+      ],
+      "dayType": "normal",
+      "nextDayType": "normal",
+      "notes": "DEMO",
+      "scheduledMinutes": 450
+    }
+  ],
+  "allowances": [
+    {
+      "id": "be60f40c-cd36-407e-957d-0f70eb1cac35",
+      "name": "交通費 / Transport",
+      "amount": 500,
+      "frequency": "day",
+      "month": ""
+    }
+  ],
+  "deductions": [
+    {
+      "id": "031bf94b-465c-4ace-af58-ef1ca8dfd3ee",
+      "name": "寮費 / Asrama",
+      "amount": 20000,
+      "month": ""
+    }
+  ],
+  "comparisons": {}
+}
